@@ -1,3 +1,6 @@
 django
 gunicorn
 django-heroku
+dj-static
+dj-database-url
+static3
