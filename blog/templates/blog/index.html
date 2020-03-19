@@ -1,0 +1,26 @@
+{% extends "blog/base.html" %}
+{% block title %}
+招路网试题博客首页
+{% endblock %}
+
+{% block content %}
+<h1>招路网试题<small>博客首页</small></h1>
+<div class="table-responsive">
+    <table class="table table-striped table-hover table-condensed">
+        <tr>
+            <td>序号</td>
+            <td>博文</td>
+            <td>发布</td>
+            <td>作者</td>
+        </tr>
+        {% for item in post_list %}
+        <tr>
+            <td>{{item.id | default:"序号"}}</td>
+            <td><a href="{% url 'blog:detail' item.id %}" >{{ item.title | default:"标题"}}</a></td>
+            <td>{{item.created_time | default:"发布时间"}}</td>
+            <td>{{item.author | default:"作者"}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+{% endblock %}

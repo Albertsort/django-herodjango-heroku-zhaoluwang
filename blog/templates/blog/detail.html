@@ -1,0 +1,47 @@
+{% extends "blog/base.html" %}
+
+{% block title %}
+{{ object.title | default:"文章标题" }}
+{% endblock %}
+
+{% block content %}
+<h1>{{ object.title | default:"文章标题"}}</h1>
+<p class="lead">{{ object.body | default:"文章内容" }}</p>
+{{ object.get_absolute_url }}
+
+<nav aria-label="Page navigation">
+    <ul class="pager">
+        <a href="{% url 'blog:index' %}"><span class="label label-primary">返回博客主页</span></a>
+    </ul>
+</nav>
+<form action="{% url 'blog:add_comment' object.id %}" method="POST" class="comment-form">
+{% csrf_token %}
+    <div class="row">
+        <div class="col-md-4">
+            <label for="{{ form.comment.id_for_label }}">评论：</label>
+            {{ form.comment }}
+            {{ form.comment.errors }}
+        </div>
+        <div class="col-md-4">
+            <label for="{{ form.post.id_for_label }}">文章：</label>
+            {{ form.post }}
+            {{ form.post.errors }}
+            <button type="submit" class="comment-btn">发表</button>
+        </div>
+    </div>
+    {% if comment_list %}
+    <ul class="comment-list list-unstyled">
+        {% for comment in comment_list %}
+        <li class="comment-item">
+            <time class="submit-date">{{ comment.created_time }}</time>
+            <div class="text">
+                {{ comment.comment }}
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="text">暂无评论</p>
+    {% endif %}
+</form>
+{% endblock %}
